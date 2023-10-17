@@ -63,7 +63,8 @@ pipeline {
                 }
             }
             steps {
-                sh 'pyinstaller --onefile sources/add2vals.py'
+              echo 'Hello World!'
+                // sh 'pyinstaller --onefile sources/add2vals.py'
             }
             post {
                 success {
