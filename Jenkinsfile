@@ -57,20 +57,20 @@ pipeline {
             }
         }
         stage('Deliver') {
-            agent {
-                docker {
-                    image 'cdrx/pyinstaller-linux:python3'
-                }
-            }
+            // agent {
+            //     docker {
+            //         image 'cdrx/pyinstaller-linux:python3'
+            //     }
+            // }
             steps {
-              // echo 'Hello World!'
-                sh 'pyinstaller --onefile sources/add2vals.py'
+              echo 'Hello World!'
+                // sh 'pyinstaller --onefile sources/add2vals.py'
             }
-            post {
-                success {
-                    archiveArtifacts 'dist/add2vals'
-                }
-            }
+            // post {
+            //     success {
+            //         archiveArtifacts 'dist/add2vals'
+            //     }
+            // }
         }
     }
 }
