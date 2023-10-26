@@ -28,12 +28,13 @@ node {
       dir(path: env.BUILD_ID) { 
         unstash(name: 'compiled-results') 
         sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
-        echo "Hello World!"
-        echo "Hello World !!!!!!"
-        echo "test scm"
       }
       archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals" 
-      sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'" 
+      dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
+      sh "${dockerCmd}" 
+      sshagent(['bf440e00-5dc4-4fe4-ad94-af83b878c240']) {
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
+      }
       sleep(60)
     } catch(e){
       echo 'Deploy stage failed';
