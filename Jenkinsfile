@@ -33,7 +33,7 @@ node {
       sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'" 
       sleep(60)
     } catch(e){
-      echo 'Deliver stage failed';
+      echo 'Deploy stage failed';
     }
   }
 
