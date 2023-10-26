@@ -32,9 +32,9 @@ node {
       archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals" 
       dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
       sh "${dockerCmd}" 
-      // sshagent(['bf440e00-5dc4-4fe4-ad94-af83b878c240']) {
-      //   sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
-      // }
+      sshagent(['bf440e00-5dc4-4fe4-ad94-af83b878c240']) {
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
+      }
       sleep(60)
     } catch(e){
       echo 'Deploy stage failed';
