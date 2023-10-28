@@ -33,7 +33,7 @@ node {
       dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
       sh "${dockerCmd}" 
       sshagent(credentials: ['b157a2a1-6bc6-432a-bd3c-5a85a0fb959a']){
-        sh "scp -o StrictHostKeyChecking=no ${env.BUILD_ID}/sources/dist/add2vals ec2-user@172-31-28-126:/app/"
+        sh "scp -o StrictHostKeyChecking=no ${env.BUILD_ID}/sources/dist/add2vals ec2-user@18.143.66.200:/app/"
         // sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 'docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py''"
       }
       // sshagent(['25066cfa-1c15-48ef-a8f1-563112ac9703']) {
