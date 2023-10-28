@@ -33,7 +33,8 @@ node {
       dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
       sh "${dockerCmd}" 
       sshagent(credentials: ['b157a2a1-6bc6-432a-bd3c-5a85a0fb959a']){
-        sh 'docker --version'
+        sh 'sudo apt-get update'
+        sh 'sudo apt-get install -y docker.io'
         sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
       }
       // sshagent(['25066cfa-1c15-48ef-a8f1-563112ac9703']) {
