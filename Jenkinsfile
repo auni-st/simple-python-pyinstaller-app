@@ -33,9 +33,9 @@ node {
       dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
       sh "${dockerCmd}" 
       sshagent(credentials: ['b157a2a1-6bc6-432a-bd3c-5a85a0fb959a']){
-        docker.image('python:3.12.0-alpine3.18').inside{
-          sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
-        }
+        sh 'curl -fsSL https://get.docker.com -o get-docker.sh'
+        sh 'sudo sh get-docker.sh'
+        sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
       }
       // sshagent(['25066cfa-1c15-48ef-a8f1-563112ac9703']) {
       //   sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
@@ -43,7 +43,8 @@ node {
       // }
       sleep(60)
     } catch(e){
-      echo 'Deploy stage failed';
+      currentBuild.result = 'FAILURE'
+      throw e
     }
   }
 
