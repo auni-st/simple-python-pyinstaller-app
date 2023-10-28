@@ -33,27 +33,19 @@ node {
       dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
       sh "${dockerCmd}" 
       sshagent(credentials: ['b157a2a1-6bc6-432a-bd3c-5a85a0fb959a']){
-        # Update package list
-sudo apt-get update
+sh 'sudo apt-get update'
+sh 'sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common'
 
-# Install required packages
-sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+sh 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -'
 
-# Add Docker GPG key
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sh 'sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"'
 
-# Add Docker repository
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sh 'sudo apt-get update'
 
-# Update package list again
-sudo apt-get update
+sh 'sudo apt-get install -y docker-ce'
 
-# Install Docker
-sudo apt-get install -y docker-ce
-
-# Start and enable Docker service
-sudo systemctl start docker
-sudo systemctl enable docker
+sh 'sudo systemctl start docker'
+sh 'sudo systemctl enable docker'
 
         sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
       }
