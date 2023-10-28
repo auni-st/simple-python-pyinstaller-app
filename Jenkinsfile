@@ -30,7 +30,7 @@ node {
         sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
       }
       archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals" 
-      dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
+      dockerCmd = "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build'"
       sh "${dockerCmd}" 
       sshagent(credentials: ['b157a2a1-6bc6-432a-bd3c-5a85a0fb959a']){
         sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
