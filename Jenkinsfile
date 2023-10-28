@@ -35,32 +35,11 @@ node {
       sh "${dockerCmd}" 
       sshagent(credentials: ['b157a2a1-6bc6-432a-bd3c-5a85a0fb959a']){
         sh "scp -v -o StrictHostKeyChecking=no ${env.BUILD_ID}/sources/dist/add2vals ec2-user@18.143.66.200:"
-        // sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 'docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py''"
       }
-      // sshagent(['25066cfa-1c15-48ef-a8f1-563112ac9703']) {
-      //   sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 ${dockerCmd}"
-      //   // sh "ssh -o StrictHostKeyChecking=no ec2-user@18.143.66.200 echo 'Hello World!'"
-      // }
       sleep(60)
     } catch(e){
       currentBuild.result = 'FAILURE'
       throw e
     }
   }
-
-  // stage('Deliver'){
-  //   VOLUME = '$(pwd)/sources:/src'
-  //   IMAGE = 'cdrx/pyinstaller-linux:python2'
-
-  //   try {
-  //     dir(path: env.BUILD_ID) { 
-  //       unstash(name: 'compiled-results') 
-  //       sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F add2vals.py'"
-  //     }
-  //       archiveArtifacts "${env.BUILD_ID}/sources/dist/add2vals" 
-  //       sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'" 
-  //   } catch(e){
-  //     echo 'Deliver stage failed';
-  //   }
-  // }
 }
